@@ -1,0 +1,6 @@
+{:paths ["src" "test"]
+
+ :aliases
+ {:test
+  {:exec-fn clojure.test/run-tests
+   :exec-args {:nses [euclid-test]}}}}
