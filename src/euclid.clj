@@ -1,6 +1,7 @@
 (ns euclid)
 
 (def pi Math/PI)
+(defn delta [x0 x1] (- x1 x0))
 
 (defn verify-nums 
   "Validates that all elements in xs are present and numeric.
@@ -13,19 +14,6 @@
     (throw (ex-info "Argument is missing." {:args xs})))
   (when-not (every? number? xs)
     (throw (ex-info "Arguments must be numbers." {:args xs}))))
-
-(defn triangle? 
-  "Returns true if a, b, c can form a valid triangle.
-  
-  Conditions:
-    - all sides must be positive
-    - triangle inequality must hold"
-  [a b c]
-  (verify-nums [a b c])
-  (and (every? pos? [a b c])
-   (< a (+ b c))
-   (< b (+ a c))
-   (< c (+ a b))))
 
 (defn sq 
   "Returns the square of x.
@@ -66,6 +54,35 @@
   (verify-nums [b h])
   (* 2 (+ b h)))
 
+(defn triangle?
+  "Returns true if a, b, c can form a valid triangle.
+  
+  Conditions:
+    - all sides must be positive
+    - triangle inequality must hold"
+  [a b c]
+  (verify-nums [a b c])
+  (and (every? pos? [a b c])
+       (< a (+ b c))
+       (< b (+ a c))
+       (< c (+ a b))))
+
+(defn identify-triangle
+  "Determines the type of a triangle given sides a, b, c
+   
+   Returns:
+     :equilateral
+     :isosceles
+     :scalene"
+  [a b c]
+  (verify-nums [a b c])
+  (when-not (triangle? a b c)
+    (throw (ex-info "Not a valid triangle." {:sides [a b c]})))
+  (cond
+    (and (= a b) (= b c)) :equilateral
+    (or (= a b) (= b c) (= a c)) :isosceles
+    :else :scalene))
+
 (defn triangle-area
   [b h]
   (verify-nums [b h])
@@ -77,6 +94,19 @@
   (when-not (triangle? l0 l1 l2)
     (throw (ex-info "Not a valid triangle." {:sides [l0 l1 l2]})))
   (+ l0 l1 l2))
+
+(defn semiperimeter
+  [a b c]
+  (verify-nums [a b c])
+  (/ (triangle-perimeter a b c) 2))
+
+(defn heron-triangle-area
+  [a b c]
+  (let [p (semiperimeter a b c)]
+    (Math/sqrt (* p 
+                  (- p a)
+                  (- p b) 
+                  (- p c)))))
 
 (defn pythagorean-theorem
   "Computes a missing side of a right triangle using the Pythagorean theorem.
@@ -115,3 +145,9 @@
   [r]
   (verify-nums [r])
   (* pi (sq r)))
+
+(defn points-distance
+  [xa xb ya yb]
+  (verify-nums [xa xb ya yb])
+  (Math/sqrt (+ (sq (delta xa xb))
+                (sq (delta ya yb)))))
