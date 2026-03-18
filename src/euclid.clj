@@ -1,11 +1,13 @@
 (ns euclid)
 
+(def pi Math/PI)
+
 (defn verify-nums 
   "Validates that all elements in xs are present and numeric.
   
-    Throws an ExceptionInfo if:
+  Throws an ExceptionInfo if:
     - any argument is nil
-    - any argument is not a number"
+    - any argument is not a number" 
   [xs]
   (when (some nil? xs)
     (throw (ex-info "Argument is missing." {:args xs})))
@@ -13,28 +15,53 @@
     (throw (ex-info "Arguments must be numbers." {:args xs}))))
 
 (defn triangle? 
+  "Returns true if a, b, c can form a valid triangle.
+  
+  Conditions:
+    - all sides must be positive
+    - triangle inequality must hold"
   [a b c]
   (verify-nums [a b c])
-  (and (< a (+ b c))
-       (< b (+ a c))
-       (< c (+ a b))))
+  (and (every? pos? [a b c])
+   (< a (+ b c))
+   (< b (+ a c))
+   (< c (+ a b))))
 
-(defn sq [x] 
+(defn sq 
+  "Returns the square of x.
+   Formula:
+    x² = x * x" 
+  [x]
   (verify-nums [x])
   (* x x))
 
-(defn square-area [x] (sq x))
+(defn square-area
+  "Returns the area of a square.
+   Formula: 
+     A = x² (x * x)"
+  [x]
+  (sq x))
+
 (defn square-perimeter 
+  "Returns the perimeter of a square.
+   Formula: 
+     P = x * 4 (Sides of a square)"
   [x] 
   (verify-nums [x])
   (* x 4))
 
-(defn rect-area
+(defn rectangle-area 
+  "Returns the area of a rectangle.
+   Formula: 
+     A = b * h"
   [b h] 
   (verify-nums [b h])
   (* b h))
 
-(defn rect-perimeter 
+(defn rectangle-perimeter 
+  "Returns the perimeter of a rectangle.
+   Formula: 
+     A = 2 * (b + h)"
   [b h] 
   (verify-nums [b h])
   (* 2 (+ b h)))
@@ -52,13 +79,39 @@
   (+ l0 l1 l2))
 
 (defn pythagorean-theorem
-  ;; a² = b² + c²
-  ;; :a -> compute a from b and c
-  ;; :b -> compute b from c and a 
-  ;; :c -> compute c from a and b
+  "Computes a missing side of a right triangle using the Pythagorean theorem.
+  
+  Formula: a² = b² + c²
+  
+  Parameters:
+    - x, y: known sides
+    - missing: which side to compute (:a, :b, or :c)
+  
+  Conventions:
+    - :a ~> hypotenuse (computed from b and c)
+    - :b ~> leg (computed from a and c)
+    - :c ~> leg (computed from a and b)
+  
+  Note: does not currently guard against invalid domain (e.g., sqrt of negative)."
   [x y missing]
   (verify-nums [x y])
   (case missing
-    :a (Math/sqrt (+ (sq x) (sq y)))
-    :b (Math/sqrt (- (sq x) (sq y)))
-    :c (Math/sqrt (- (sq x) (sq y)))))
+    :a (Math/sqrt (+ (sq x) (sq y))) ;; x = b, y = c
+    :b (Math/sqrt (- (sq x) (sq y))) ;; x = a, y = c
+    :c (Math/sqrt (- (sq x) (sq y))))) ;; x = a, y = b
+
+(defn diameter-to-radius [d] (/ d 2))
+(defn radius-to-diameter [r] (* r 2))
+
+(defn circle-circumference 
+  [x option]
+  (verify-nums [x])
+  (case option
+    :d (* pi x)
+    :r (* 2 pi x)
+    (throw (ex-info "Option must be :d or :r" {:option option}))))
+
+(defn circle-area
+  [r]
+  (verify-nums [r])
+  (* pi (sq r)))

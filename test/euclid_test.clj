@@ -14,12 +14,12 @@
 
 (deftest rectangle-test
   (testing "rectangle area"
-    (is (= 12 (rect-area 3 4)))
-    (is (= 20 (rect-area 4 5))))
+    (is (= 12 (rectangle-area 3 4)))
+    (is (= 20 (rectangle-area 4 5))))
 
   (testing "rectangle perimeter"
-    (is (= 14 (rect-perimeter 3 4)))
-    (is (= 18 (rect-perimeter 4 5)))))
+    (is (= 14 (rectangle-perimeter 3 4)))
+    (is (= 18 (rectangle-perimeter 4 5)))))
 
 (deftest triangle-test
   (testing "triangle validity"

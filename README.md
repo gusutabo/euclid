@@ -28,7 +28,7 @@ cd euclid
 (e/square-area 4)
 ;; => 16
 
-(e/rect-perimeter 3 4)
+(e/rectangle-perimeter 3 4)
 ;; => 14
 
 (e/triangle? 3 4 5)
