@@ -9,7 +9,10 @@
 
 - Square (area, perimeter)
 - Rectangle (area, perimeter)
-- Triangle (area, perimeter, Pythagorean theorem)
+- Triangle (area, perimeter, Pythagorean theorem and Heron's formula)
+- Circle (Area, Circumference)
+- Triangle type detection (equilateral, isosceles, scalene)
+- 2D distance between points
 
 ## Usage Method
 
