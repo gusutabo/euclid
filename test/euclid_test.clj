@@ -88,4 +88,5 @@
     (is (= 5.0 (points-distance 0 3 0 4)))
     (is (= 5.0 (points-distance 3 0 4 0)))))
 
-(run-tests)
+(defn -main [& _]
+  (run-tests))
