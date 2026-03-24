@@ -17,7 +17,8 @@
 
 (defn sq 
   "Returns the square of x.
-   Formula:
+   
+  Formula:
     x² = x * x" 
   [x]
   (verify-nums [x])
@@ -25,14 +26,16 @@
 
 (defn square-area
   "Returns the area of a square.
-   Formula: 
-     A = x² (x * x)"
+   
+  Formula: 
+     A = x² (or x * x)"
   [x]
   (sq x))
 
 (defn square-perimeter 
   "Returns the perimeter of a square.
-   Formula: 
+   
+  Formula: 
      P = x * 4 (Sides of a square)"
   [x] 
   (verify-nums [x])
@@ -40,7 +43,8 @@
 
 (defn rectangle-area 
   "Returns the area of a rectangle.
-   Formula: 
+   
+  Formula: 
      A = b * h"
   [b h] 
   (verify-nums [b h])
@@ -48,8 +52,9 @@
 
 (defn rectangle-perimeter 
   "Returns the perimeter of a rectangle.
-   Formula: 
-     A = 2 * (b + h)"
+   
+  Formula: 
+     P = 2 * (b + h)"
   [b h] 
   (verify-nums [b h])
   (* 2 (+ b h)))
@@ -68,7 +73,7 @@
        (< c (+ a b))))
 
 (defn identify-triangle
-  "Determines the type of a triangle given sides a, b, c
+  "Determines the type of a triangle given sides a, b, c.
    
    Returns:
      :equilateral
@@ -84,11 +89,19 @@
     :else :scalene))
 
 (defn triangle-area
+  "Returns the triangle area using base and heigth.
+   
+  Formula: 
+     A = b * h * 0.5 "
   [b h]
   (verify-nums [b h])
   (* 0.5 b h))
   
 (defn triangle-perimeter
+   "Returns the triangle perimeter.
+   
+  Formula: 
+     p = a + b + c"
   [l0 l1 l2]
   (verify-nums [l0 l1 l2])
   (when-not (triangle? l0 l1 l2)
@@ -96,11 +109,19 @@
   (+ l0 l1 l2))
 
 (defn semiperimeter
+   "Returns half of a triangle perimeter.
+   
+  Formula: 
+     s = (a + b + c) / 2"
   [a b c]
   (verify-nums [a b c])
   (/ (triangle-perimeter a b c) 2))
 
 (defn heron-triangle-area
+  "Returns the area of a triangle whose side lengths a, b, and c without heigth.
+
+  Formula:
+    A = √p(p -a)(p - b)(p - c)"
   [a b c]
   (let [p (semiperimeter a b c)]
     (Math/sqrt (* p 
